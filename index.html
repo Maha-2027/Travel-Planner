@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Wanderlust — Premium Travel Planner</title>
+  <meta name="description" content="Plan extraordinary journeys with Wanderlust — the premium travel planner for curious explorers.">
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><text y='28' font-size='28'>🌍</text></svg>">
+</head>
+<body>
+
+<!-- ─── Navigation ─────────────────────────────────────── -->
+<nav class="nav" id="main-nav">
+  <div class="nav-inner">
+    <a href="/" class="nav-logo">
+      <div class="nav-logo-icon">🌍</div>
+      <span class="nav-logo-text">Wanderlust</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="/" class="nav-link active">Home</a></li>
+      <li><a href="/#destinations" class="nav-link">Destinations</a></li>
+      <li><a href="/planner" class="nav-link">Planner</a></li>
+    </ul>
+    <div class="nav-actions" id="nav-auth">
+      <a href="/login" class="btn btn-outline-light btn-sm">Sign in</a>
+      <a href="/register" class="btn btn-primary btn-sm">Get started</a>
+    </div>
+    <button class="hamburger" id="hamburger" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- Mobile menu -->
+<div class="nav-mobile-menu" id="nav-mobile-menu">
+  <a href="/" class="nav-link">Home</a>
+  <a href="/#destinations" class="nav-link">Destinations</a>
+  <a href="/planner" class="nav-link">Planner</a>
+  <a href="/login" class="btn btn-outline-light btn-sm" style="width:fit-content">Sign in</a>
+  <a href="/register" class="btn btn-primary btn-sm" style="width:fit-content">Get started</a>
+</div>
+
+<!-- ─── Hero ───────────────────────────────────────────── -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-bg-pattern"></div>
+  <div class="hero-grid"></div>
+
+  <div class="hero-content">
+    <div class="hero-text">
+      <p class="eyebrow hero-eyebrow">Curated travel experiences</p>
+      <h1 class="display-xl hero-title">
+        Explore the<br>
+        world <em>your</em><br>
+        way
+      </h1>
+      <p class="hero-subtitle">
+        Plan extraordinary journeys with intelligent tools, real-time budgeting, and personalised destination guides — all in one premium platform.
+      </p>
+      <div class="hero-ctas">
+        <a href="/planner" class="btn btn-primary btn-lg">Start planning ↗</a>
+        <a href="#destinations" class="btn btn-outline-light btn-lg">Browse destinations</a>
+      </div>
+      <div class="hero-stats">
+        <div>
+          <div class="hero-stat-num">180+</div>
+          <div class="hero-stat-label">Countries covered</div>
+        </div>
+        <div>
+          <div class="hero-stat-num">10k+</div>
+          <div class="hero-stat-label">Trips planned</div>
+        </div>
+        <div>
+          <div class="hero-stat-num">4.9★</div>
+          <div class="hero-stat-label">User rating</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-visual">
+      <div class="dest-card-stack">
+        <div class="hero-badge">✨ Top pick 2025</div>
+        <div class="dest-card" style="animation: float1 6s ease-in-out infinite;">
+          <img src="https://images.unsplash.com/photo-1570077188670-e3a8d69ac5ff?w=700" alt="Santorini">
+          <div class="dest-card-overlay">
+            <div class="dest-card-name">Santorini</div>
+            <div class="dest-card-country">Greece · ⭐ 4.9</div>
+          </div>
+        </div>
+        <div class="dest-card" style="animation: float2 7s ease-in-out infinite 1s;">
+          <img src="https://images.unsplash.com/photo-1537996194471-e657df975ab4?w=600" alt="Bali">
+          <div class="dest-card-overlay">
+            <div class="dest-card-name">Bali</div>
+            <div class="dest-card-country">Indonesia · ⭐ 4.7</div>
+          </div>
+        </div>
+        <div class="dest-card" style="animation: float3 8s ease-in-out infinite 0.5s;">
+          <img src="https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?w=500" alt="Tokyo">
+          <div class="dest-card-overlay">
+            <div class="dest-card-name">Tokyo</div>
+            <div class="dest-card-country">Japan</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+@keyframes float1 { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-12px)} }
+@keyframes float2 { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-8px)} }
+@keyframes float3 { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
+</style>
+
+<!-- ─── Destinations ────────────────────────────────────── -->
+<section class="section destinations-section" id="destinations">
+  <div class="section-inner">
+    <div class="section-header">
+      <p class="eyebrow">Explore the world</p>
+      <h2 class="display-md">Handpicked destinations</h2>
+      <p>From tropical island escapes to ancient city adventures — discover where your next story begins.</p>
+    </div>
+
+    <div class="filter-tabs">
+      <button class="filter-tab active" data-filter="all">All</button>
+      <button class="filter-tab" data-filter="city">🏙 Cities</button>
+      <button class="filter-tab" data-filter="beach">🏖 Beaches</button>
+      <button class="filter-tab" data-filter="adventure">🏔 Adventure</button>
+      <button class="filter-tab" data-filter="nature">🌿 Nature</button>
+    </div>
+
+    <div class="destinations-grid" id="destinations-grid">
+      <!-- Loaded via JS -->
+      <div style="grid-column:1/-1;text-align:center;padding:3rem;color:var(--text-muted)">
+        <div class="spinner" style="border-color:rgba(42,122,59,0.2);border-top-color:var(--green-500);width:32px;height:32px;margin:0 auto 1rem;"></div>
+        Loading destinations…
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── Features ───────────────────────────────────────── -->
+<section class="section features-section">
+  <div class="section-inner">
+    <div class="section-header">
+      <p class="eyebrow">Why Wanderlust</p>
+      <h2 class="display-md">Everything you need to plan</h2>
+      <p>From inspiration to itinerary, we make travel planning effortless and enjoyable.</p>
+    </div>
+
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon">💰</div>
+        <h3 class="feature-title">Smart budget planner</h3>
+        <p class="feature-desc">Get accurate cost estimates for flights, accommodation, food, and transport — in 10 currencies. No surprises.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🗺️</div>
+        <h3 class="feature-title">Curated destination guides</h3>
+        <p class="feature-desc">Expert-curated destination information including best seasons, must-dos, and real traveller ratings.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">✈️</div>
+        <h3 class="feature-title">Multi-step trip builder</h3>
+        <p class="feature-desc">Build complete trips step by step — from destination choice to accommodation, flights, dining, and car rental.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🤖</div>
+        <h3 class="feature-title">AI travel assistant</h3>
+        <p class="feature-desc">Ask our travel chatbot anything — destination tips, visa advice, packing lists, and personalised recommendations.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">💱</div>
+        <h3 class="feature-title">10-currency switcher</h3>
+        <p class="feature-desc">View all costs in USD, EUR, GBP, INR, JPY, AUD, CAD, SGD, AED, or THB — switch instantly, no page reload.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">📱</div>
+        <h3 class="feature-title">Fully responsive</h3>
+        <p class="feature-desc">Plan on the go — Wanderlust works beautifully on mobile, tablet, and desktop with a native-quality feel.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── CTA ────────────────────────────────────────────── -->
+<section class="cta-section">
+  <div class="section-inner">
+    <p class="eyebrow" style="color:var(--green-300);margin-bottom:1rem;">Ready to go?</p>
+    <h2 class="display-md">Your next adventure awaits</h2>
+    <p>Join thousands of travellers who plan smarter with Wanderlust. It's free to get started.</p>
+    <a href="/register" class="btn btn-primary btn-lg">Create your free account ↗</a>
+  </div>
+</section>
+
+<!-- ─── Footer ─────────────────────────────────────────── -->
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="nav-logo">
+          <div class="nav-logo-icon">🌍</div>
+          <span class="nav-logo-text">Wanderlust</span>
+        </div>
+        <p>Premium travel planning for curious explorers. Discover, plan, and experience the world's most extraordinary destinations.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Explore</h4>
+        <ul>
+          <li><a href="/#destinations">Destinations</a></li>
+          <li><a href="/planner">Trip planner</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Account</h4>
+        <ul>
+          <li><a href="/login">Sign in</a></li>
+          <li><a href="/register">Register</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Categories</h4>
+        <ul>
+          <li><a href="#">Beach escapes</a></li>
+          <li><a href="#">City breaks</a></li>
+          <li><a href="#">Adventure</a></li>
+          <li><a href="#">Nature</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2025 Wanderlust. Built with care.</span>
+      <span>Made for explorers 🌍</span>
+    </div>
+  </div>
+</footer>
+
+<!-- ─── Chatbot ─────────────────────────────────────────── -->
+<button class="chat-fab" id="chat-fab" aria-label="Open travel assistant">💬</button>
+
+<div class="chat-panel" id="chat-panel">
+  <div class="chat-header">
+    <div class="chat-header-info">
+      <div class="chat-avatar">🤖</div>
+      <div>
+        <div class="chat-header-name">Travel Assistant</div>
+        <div class="chat-header-status"><span class="status-dot"></span> Online</div>
+      </div>
+    </div>
+    <button class="chat-close-btn" id="chat-close">✕</button>
+  </div>
+  <div class="chat-messages" id="chat-messages"></div>
+  <div class="chat-quick-replies">
+    <button class="quick-reply">Best destinations 🌍</button>
+    <button class="quick-reply">Budget tips 💰</button>
+    <button class="quick-reply">Visa advice 📋</button>
+    <button class="quick-reply">Best seasons ☀️</button>
+  </div>
+  <div class="chat-input-row">
+    <input type="text" class="chat-input" id="chat-input" placeholder="Ask anything about travel…">
+    <button class="chat-send-btn" id="chat-send">→</button>
+  </div>
+</div>
+
+<script src="/js/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,5 @@
+CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL, email TEXT NOT NULL UNIQUE, password TEXT NOT NULL, verified BOOLEAN DEFAULT 0, verification_token TEXT, created_at DATETIME DEFAULT CURRENT_TIMESTAMP);
+
+CREATE TABLE IF NOT EXISTS destinations (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL, country TEXT NOT NULL, short_desc TEXT, image_url TEXT, avg_cost_usd REAL, best_season TEXT, category TEXT, rating REAL DEFAULT 4.5, created_at DATETIME DEFAULT CURRENT_TIMESTAMP);
+
+CREATE TABLE IF NOT EXISTS travel_plans (id INTEGER PRIMARY KEY AUTOINCREMENT, user_id INTEGER NOT NULL, destination_id INTEGER, destination_name TEXT, departure_city TEXT, travel_date DATE, return_date DATE, travelers INTEGER DEFAULT 1, accommodation_type TEXT DEFAULT 'hotel', accommodation_stars INTEGER DEFAULT 3, flight_class TEXT DEFAULT 'economy', car_rental BOOLEAN DEFAULT 0, car_type TEXT, food_preference TEXT DEFAULT 'mixed', payment_method TEXT DEFAULT 'credit_card', total_budget_usd REAL, currency TEXT DEFAULT 'USD', notes TEXT, status TEXT DEFAULT 'draft', created_at DATETIME DEFAULT CURRENT_TIMESTAMP);

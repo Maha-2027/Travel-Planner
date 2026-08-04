@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Trip Planner — Wanderlust</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin=""/>
+</head>
+<body class="planner-page">
+
+<!-- ─── Navigation ─────────────────────────────────────── -->
+<nav class="nav scrolled" id="main-nav">
+  <div class="nav-inner">
+    <a href="/" class="nav-logo">
+      <div class="nav-logo-icon">🌍</div>
+      <span class="nav-logo-text">Wanderlust</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="/" class="nav-link">Home</a></li>
+      <li><a href="/#destinations" class="nav-link">Destinations</a></li>
+      <li><a href="/planner" class="nav-link active">Planner</a></li>
+    </ul>
+    <div class="nav-actions" id="nav-auth">
+      <a href="/login" class="btn btn-outline-light btn-sm">Sign in</a>
+      <a href="/register" class="btn btn-primary btn-sm">Get started</a>
+    </div>
+    <button class="hamburger" id="hamburger" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<div class="nav-mobile-menu" id="nav-mobile-menu">
+  <a href="/" class="nav-link">Home</a>
+  <a href="/#destinations" class="nav-link">Destinations</a>
+  <a href="/planner" class="nav-link">Planner</a>
+</div>
+
+<!-- ─── Planner Hero ───────────────────────────────────── -->
+<div class="planner-hero">
+  <p class="eyebrow" style="color:var(--green-300);margin-bottom:0.75rem;">Build your trip</p>
+  <h1 class="display-md">Trip Planner</h1>
+  <p>Fill in your preferences and we'll estimate your complete trip budget.</p>
+  <div style="margin-top:1rem;display:inline-block;background:rgba(58,158,80,0.1);border:1px solid rgba(58,158,80,0.3);padding:0.5rem 1rem;border-radius:20px;font-size:0.85rem;color:var(--green-600);">
+    ✨ Budget Mode: We've pre-selected affordable options to minimize your trip cost.
+  </div>
+</div>
+
+<!-- ─── Planner Body ───────────────────────────────────── -->
+<div class="planner-body">
+
+  <!-- Step indicator -->
+  <div class="steps-bar">
+    <div class="step-item active" data-step="1">
+      <div class="step-circle">1</div>
+      <span class="step-label">Destination</span>
+    </div>
+    <div class="step-item" data-step="2">
+      <div class="step-circle">2</div>
+      <span class="step-label">Dates</span>
+    </div>
+    <div class="step-item" data-step="3">
+      <div class="step-circle">3</div>
+      <span class="step-label">Preferences</span>
+    </div>
+    <div class="step-item" data-step="4">
+      <div class="step-circle">4</div>
+      <span class="step-label">Review</span>
+    </div>
+    <div class="step-item" data-step="5">
+      <div class="step-circle">5</div>
+      <span class="step-label">Payment</span>
+    </div>
+    <div class="step-item" data-step="6">
+      <div class="step-circle">6</div>
+      <span class="step-label">Book</span>
+    </div>
+  </div>
+
+  <!-- ── Step 1: Destination & Departure ─────────────── -->
+  <div class="form-step active" id="step-1">
+    <div class="planner-card">
+      <h2 class="planner-card-title">🗺️ Where are you going?</h2>
+      <div class="planner-form-grid">
+        <div>
+          <label class="planner-label" for="destination-name">Destination</label>
+          <input class="planner-input" type="text" id="destination-name" placeholder="e.g. Paris, Bali, Tokyo…">
+        </div>
+        <div>
+          <label class="planner-label" for="departure-city">Departing from</label>
+          <input class="planner-input" type="text" id="departure-city" placeholder="e.g. London, New York…">
+        </div>
+        <div class="full">
+          <label class="planner-label">Number of travellers</label>
+          <div style="display:flex;gap:0.75rem;align-items:center;margin-top:0.25rem;">
+            <button onclick="changeTravelers(-1)" class="btn btn-ghost btn-sm" style="width:36px;height:36px;padding:0;border-radius:50%;font-size:1.1rem;">−</button>
+            <input class="planner-input" type="number" id="travelers" value="2" min="1" max="20" style="width:80px;text-align:center;">
+            <button onclick="changeTravelers(1)" class="btn btn-ghost btn-sm" style="width:36px;height:36px;padding:0;border-radius:50%;font-size:1.1rem;">+</button>
+            <span style="font-size:0.85rem;color:var(--text-muted)">travellers</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Popular destinations quick select -->
+    <div class="planner-card">
+      <h2 class="planner-card-title">✨ Or pick a popular destination</h2>
+      <div style="display:flex;gap:0.6rem;flex-wrap:wrap;">
+        <button class="filter-tab" onclick="selectQuickDest('Paris', 'France')">🗼 Paris</button>
+        <button class="filter-tab" onclick="selectQuickDest('Tokyo', 'Japan')">🌸 Tokyo</button>
+        <button class="filter-tab" onclick="selectQuickDest('Bali', 'Indonesia')">🌴 Bali</button>
+        <button class="filter-tab" onclick="selectQuickDest('Santorini', 'Greece')">🌅 Santorini</button>
+        <button class="filter-tab" onclick="selectQuickDest('Maldives', 'Maldives')">🏝 Maldives</button>
+        <button class="filter-tab" onclick="selectQuickDest('New York', 'USA')">🗽 New York</button>
+        <button class="filter-tab" onclick="selectQuickDest('Cape Town', 'South Africa')">🏔 Cape Town</button>
+        <button class="filter-tab" onclick="selectQuickDest('Machu Picchu', 'Peru')">🦙 Machu Picchu</button>
+      </div>
+    </div>
+
+    <div class="step-nav">
+      <div></div>
+      <button id="next-btn" class="btn btn-primary btn-lg" onclick="nextStep()">Continue →</button>
+    </div>
+  </div>
+
+  <!-- ── Step 2: Dates & Duration ─────────────────────── -->
+  <div class="form-step" id="step-2">
+    <div class="planner-card">
+      <h2 class="planner-card-title">📅 When are you travelling?</h2>
+      <div class="planner-form-grid">
+        <div>
+          <label class="planner-label" for="travel-date">Departure date</label>
+          <input class="planner-input" type="date" id="travel-date">
+        </div>
+        <div>
+          <label class="planner-label" for="return-date">Return date</label>
+          <input class="planner-input" type="date" id="return-date">
+        </div>
+      </div>
+      <div id="duration-display" style="margin-top:1rem;padding:0.75rem 1rem;background:var(--green-50);border-radius:var(--radius-md);font-size:0.875rem;color:var(--green-700);display:none;">
+        🗓 <strong id="duration-text"></strong>
+      </div>
+    </div>
+
+    <div class="step-nav">
+      <button id="prev-btn" class="btn btn-ghost btn-lg" onclick="prevStep()">← Back</button>
+      <button id="next-btn" class="btn btn-primary btn-lg" onclick="nextStep()">Continue →</button>
+    </div>
+  </div>
+
+  <!-- ── Step 3: Preferences ──────────────────────────── -->
+  <div class="form-step" id="step-3">
+
+    <!-- Accommodation -->
+    <div class="planner-card">
+      <h2 class="planner-card-title">🏨 Accommodation</h2>
+      <div class="option-cards">
+        <div class="option-card selected" data-group="accommodation_type" data-value="hostel">
+          <div class="icon">🛏</div>Hostel
+        </div>
+        <div class="option-card" data-group="accommodation_type" data-value="hotel">
+          <div class="icon">🏩</div>Hotel
+        </div>
+        <div class="option-card" data-group="accommodation_type" data-value="airbnb">
+          <div class="icon">🏠</div>Airbnb
+        </div>
+        <div class="option-card" data-group="accommodation_type" data-value="resort">
+          <div class="icon">🏖</div>Resort
+        </div>
+        <div class="option-card" data-group="accommodation_type" data-value="villa">
+          <div class="icon">🏡</div>Villa
+        </div>
+      </div>
+      <div style="margin-top:1.25rem;">
+        <label class="planner-label">Star rating</label>
+        <div class="star-rating">
+          <div class="star active" data-value="1">⭐</div>
+          <div class="star active" data-value="2">⭐</div>
+          <div class="star" data-value="3">⭐</div>
+          <div class="star" data-value="4">⭐</div>
+          <div class="star" data-value="5">⭐</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Flight class -->
+    <div class="planner-card">
+      <h2 class="planner-card-title">✈️ Flight class</h2>
+      <div class="option-cards" style="grid-template-columns:repeat(3,1fr);">
+        <div class="option-card selected" data-group="flight_class" data-value="economy">
+          <div class="icon">💺</div>Economy
+        </div>
+        <div class="option-card" data-group="flight_class" data-value="business">
+          <div class="icon">🥂</div>Business
+        </div>
+        <div class="option-card" data-group="flight_class" data-value="first">
+          <div class="icon">👑</div>First
+        </div>
+      </div>
+    </div>
+
+    <!-- Food & dining -->
+    <div class="planner-card">
+      <h2 class="planner-card-title">🍽 Food & dining</h2>
+      <div class="option-cards">
+        <div class="option-card selected" data-group="food_preference" data-value="budget">
+          <div class="icon">🥙</div>Budget
+        </div>
+        <div class="option-card" data-group="food_preference" data-value="mixed">
+          <div class="icon">🍱</div>Mixed
+        </div>
+        <div class="option-card" data-group="food_preference" data-value="mid-range">
+          <div class="icon">🍝</div>Mid-range
+        </div>
+        <div class="option-card" data-group="food_preference" data-value="fine-dining">
+          <div class="icon">🥩</div>Fine dining
+        </div>
+      </div>
+    </div>
+
+    <!-- Car rental -->
+    <div class="planner-card">
+      <h2 class="planner-card-title">🚗 Car rental</h2>
+      <div style="display:flex;align-items:center;gap:1rem;margin-bottom:1rem;">
+        <label style="display:flex;align-items:center;gap:0.75rem;cursor:pointer;font-size:0.9rem;color:var(--text-secondary);">
+          <input type="checkbox" id="car-rental-toggle" style="width:18px;height:18px;accent-color:var(--green-600);">
+          Include car rental in my budget
+        </label>
+      </div>
+      <div id="car-type-row" style="display:none;">
+        <label class="planner-label">Car type</label>
+        <div class="option-cards" style="grid-template-columns:repeat(4,1fr);">
+          <div class="option-card selected" data-group="car_type" data-value="economy">
+            <div class="icon">🚗</div>Economy
+          </div>
+          <div class="option-card" data-group="car_type" data-value="compact">
+            <div class="icon">🚙</div>Compact
+          </div>
+          <div class="option-card" data-group="car_type" data-value="suv">
+            <div class="icon">🚐</div>SUV
+          </div>
+          <div class="option-card" data-group="car_type" data-value="luxury">
+            <div class="icon">🏎</div>Luxury
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Notes -->
+    <div class="planner-card">
+      <h2 class="planner-card-title">📝 Trip notes</h2>
+      <textarea class="planner-input" id="trip-notes" rows="3" placeholder="Any special requests, celebrations, accessibility needs…" style="resize:vertical;"></textarea>
+    </div>
+
+    <div class="step-nav">
+      <button class="btn btn-ghost btn-lg" onclick="prevStep()">← Back</button>
+      <button class="btn btn-primary btn-lg" onclick="nextStep()">Review trip →</button>
+    </div>
+  </div>
+
+  <!-- ── Step 4: Review & Summary ─────────────────────── -->
+  <div class="form-step" id="step-4">
+
+    <!-- Budget display -->
+    <div class="budget-display">
+      <div class="budget-main">
+        <span class="budget-symbol" id="budget-symbol">$</span>
+        <span class="budget-amount" id="budget-total">0</span>
+      </div>
+      <div class="budget-label">Estimated total trip cost</div>
+      <div id="budget-nights" style="font-size:0.8rem;opacity:0.6;margin-top:2px;"></div>
+
+      <div class="budget-breakdown">
+        <div>
+          <div class="budget-item-label">Accommodation</div>
+          <div class="budget-item-val" id="budget-accom">—</div>
+        </div>
+        <div>
+          <div class="budget-item-label">Flights</div>
+          <div class="budget-item-val" id="budget-flight">—</div>
+        </div>
+        <div>
+          <div class="budget-item-label">Food</div>
+          <div class="budget-item-val" id="budget-food">—</div>
+        </div>
+        <div>
+          <div class="budget-item-label">Transport</div>
+          <div class="budget-item-val" id="budget-car">—</div>
+        </div>
+      </div>
+
+      <!-- Currency switcher -->
+      <div class="currency-switcher">
+        <button class="currency-btn active" data-currency="USD">USD</button>
+        <button class="currency-btn" data-currency="EUR">EUR</button>
+        <button class="currency-btn" data-currency="GBP">GBP</button>
+        <button class="currency-btn" data-currency="INR">INR</button>
+        <button class="currency-btn" data-currency="JPY">JPY</button>
+        <button class="currency-btn" data-currency="AUD">AUD</button>
+        <button class="currency-btn" data-currency="CAD">CAD</button>
+        <button class="currency-btn" data-currency="SGD">SGD</button>
+        <button class="currency-btn" data-currency="AED">AED</button>
+        <button class="currency-btn" data-currency="THB">THB</button>
+      </div>
+    </div>
+
+
+    <div class="planner-card">
+      <h2 class="planner-card-title">�📋 Trip summary</h2>
+      <div class="summary-grid">
+        <div class="summary-item">
+          <div class="summary-item-label">Destination</div>
+          <div class="summary-item-val" id="sum-destination">—</div>
+        </div>
+        <div class="summary-item">
+          <div class="summary-item-label">Departing from</div>
+          <div class="summary-item-val" id="sum-departure">—</div>
+        </div>
+        <div class="summary-item">
+          <div class="summary-item-label">Travel dates</div>
+          <div class="summary-item-val" id="sum-dates">—</div>
+        </div>
+        <div class="summary-item">
+          <div class="summary-item-label">Travellers</div>
+          <div class="summary-item-val" id="sum-travelers">—</div>
+        </div>
+        <div class="summary-item">
+          <div class="summary-item-label">Accommodation</div>
+          <div class="summary-item-val" id="sum-accommodation">—</div>
+        </div>
+        <div class="summary-item">
+          <div class="summary-item-label">Flight class</div>
+          <div class="summary-item-val" id="sum-flight">—</div>
+        </div>
+        <div class="summary-item">
+          <div class="summary-item-label">Dining style</div>
+          <div class="summary-item-val" id="sum-food">—</div>
+        </div>
+        <div class="summary-item">
+          <div class="summary-item-label">Car rental</div>
+          <div class="summary-item-val" id="sum-car">—</div>
+        </div>
+
+        <div class="summary-item">
+          <div class="summary-item-label">Est. budget</div>
+          <div class="summary-item-val" id="sum-budget">—</div>
+        </div>
+        <div class="summary-item">
+          <div class="summary-item-label">Currency</div>
+          <div class="summary-item-val" id="sum-currency">—</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="step-nav">
+      <button class="btn btn-ghost btn-lg" onclick="prevStep()">← Back</button>
+      <button id="next-btn" class="btn btn-primary btn-lg" onclick="nextStep()" style="display:inline-flex;">
+        Continue to Payment →
+      </button>
+      <button id="submit-btn" class="btn btn-primary btn-lg" onclick="savePlanOnly()" style="display:none;">
+        💾 Save my trip plan
+      </button>
+    </div>
+  </div>
+
+  <!-- ── Step 5: Payment ─────────────────────── -->
+  <div class="form-step" id="step-5">
+    <div class="planner-card">
+      <h2 class="planner-card-title">💳 Secure Payment</h2>
+      <p style="color:var(--text-secondary);margin-bottom:1.5rem;font-size:0.9rem;">
+        Please choose your preferred method to safely complete your booking.
+      </p>
+
+      <style>
+        .payment-tabs input:checked + .payment-tab-btn { background: var(--green-500); color: white; border-color: var(--green-500); }
+        .upi-app.active { background: var(--green-50); border-color: var(--green-500); }
+      </style>
+
+      <div class="payment-tabs" style="display:flex;gap:1rem;margin-bottom:1.5rem;">
+        <label class="payment-tab" style="flex:1;">
+          <input type="radio" name="pay_type" value="card" checked onchange="togglePaymentUI()" style="display:none;">
+          <div class="payment-tab-btn" style="padding:1rem;text-align:center;border:1px solid var(--glass-border);border-radius:var(--radius-md);cursor:pointer;font-weight:600;transition:all 0.2s;">Credit/Debit Card</div>
+        </label>
+        <label class="payment-tab" style="flex:1;">
+          <input type="radio" name="pay_type" value="upi" onchange="togglePaymentUI()" style="display:none;">
+          <div class="payment-tab-btn" style="padding:1rem;text-align:center;border:1px solid var(--glass-border);border-radius:var(--radius-md);cursor:pointer;font-weight:600;transition:all 0.2s;">UPI Apps</div>
+        </label>
+      </div>
+
+      <div id="pay-ui-card" style="display:block;">
+        <div style="display:grid;gap:1.2rem;">
+          <div>
+            <label class="planner-label">Cardholder Name</label>
+            <input type="text" class="planner-input" placeholder="e.g. Jane Doe">
+          </div>
+          <div>
+            <label class="planner-label">Card Number</label>
+            <div style="position:relative;">
+              <span style="position:absolute;left:12px;top:10px;font-size:1.2rem;">💳</span>
+              <input type="text" class="planner-input" placeholder="0000 0000 0000 0000" style="padding-left:45px;">
+            </div>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;">
+            <div>
+              <label class="planner-label">Expiry (MM/YY)</label>
+              <input type="text" class="planner-input" placeholder="12/25">
+            </div>
+            <div>
+              <label class="planner-label">CVV</label>
+              <input type="password" class="planner-input" placeholder="123">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="pay-ui-upi" style="display:none;">
+        <label class="planner-label">Select UPI App</label>
+        <div style="display:grid;grid-template-columns:repeat(3, 1fr);gap:1rem;margin-bottom:1.5rem;">
+          <div class="upi-app active" onclick="document.querySelectorAll('.upi-app').forEach(e=>e.classList.remove('active')); this.classList.add('active');" style="padding:1rem;text-align:center;border:1px solid var(--glass-border);border-radius:var(--radius-md);cursor:pointer;transition:all 0.2s;">
+            <div style="font-size:1.5rem;margin-bottom:0.5rem;">🇬</div><div style="font-size:0.8rem;font-weight:bold;">GPay</div>
+          </div>
+          <div class="upi-app" onclick="document.querySelectorAll('.upi-app').forEach(e=>e.classList.remove('active')); this.classList.add('active');" style="padding:1rem;text-align:center;border:1px solid var(--glass-border);border-radius:var(--radius-md);cursor:pointer;transition:all 0.2s;">
+            <div style="font-size:1.5rem;margin-bottom:0.5rem;">🅿️</div><div style="font-size:0.8rem;font-weight:bold;">PhonePe</div>
+          </div>
+          <div class="upi-app" onclick="document.querySelectorAll('.upi-app').forEach(e=>e.classList.remove('active')); this.classList.add('active');" style="padding:1rem;text-align:center;border:1px solid var(--glass-border);border-radius:var(--radius-md);cursor:pointer;transition:all 0.2s;">
+            <div style="font-size:1.5rem;margin-bottom:0.5rem;">💳</div><div style="font-size:0.8rem;font-weight:bold;">Paytm</div>
+          </div>
+        </div>
+        <div>
+          <label class="planner-label">Enter UPI ID</label>
+          <input type="text" class="planner-input" placeholder="username@okaxis">
+        </div>
+      </div>
+    </div>
+
+    <div class="step-nav" style="justify-content: space-between;">
+      <button class="btn btn-ghost btn-lg" onclick="prevStep()">← Back</button>
+      <button id="pay-save-btn" class="btn btn-primary btn-lg" onclick="submitPlan()">🔒 Pay & Save Trip</button>
+    </div>
+  </div>
+
+  <!-- ── Step 6: Book & Map ─────────────────────── -->
+  <div class="form-step" id="step-6">
+    <div class="planner-card">
+      <h2 class="planner-card-title">🗺️ Travel Map</h2>
+      <p style="color:var(--text-secondary);margin-bottom:1rem;font-size:0.9rem;">
+        Your trip plan is saved! View your travel route below. You can optionally select a hotel to add it to your itinerary, or simply finalize your booking right away.
+      </p>
+      
+      <div id="hotel-map" style="height: 400px; border-radius: var(--radius-md); border: 1px solid var(--glass-border); z-index: 1;"></div>
+      
+      <div id="selected-hotel-info" style="display:none; margin-top:1.5rem; padding:1.25rem; background:var(--green-50); border-radius:var(--radius-md); border:1px solid var(--green-200);">
+        <h3 id="hotel-name" style="color:var(--green-800); font-family:var(--font-display); font-size:1.4rem; margin-bottom:0.25rem;">Hotel Name</h3>
+        <p id="hotel-desc" style="color:var(--text-secondary); font-size:0.85rem; margin-bottom:0.75rem;">Description</p>
+        <span id="hotel-price" style="color:var(--green-700); font-weight:600; font-size:1.1rem;">$0 / night</span>
+      </div>
+    </div>
+
+    <div class="step-nav" style="justify-content: flex-end;">
+      <button id="confirm-booking-btn" class="btn btn-primary btn-lg" onclick="confirmBooking()">
+        ✅ Confirm & Book Trip
+      </button>
+    </div>
+  </div>
+
+</div><!-- /planner-body -->
+
+<!-- ─── Chatbot ─────────────────────────────────────────── -->
+<button class="chat-fab" id="chat-fab" aria-label="Open travel assistant">💬</button>
+
+<div class="chat-panel" id="chat-panel">
+  <div class="chat-header">
+    <div class="chat-header-info">
+      <div class="chat-avatar">🤖</div>
+      <div>
+        <div class="chat-header-name">Travel Assistant</div>
+        <div class="chat-header-status"><span class="status-dot"></span> Online</div>
+      </div>
+    </div>
+    <button class="chat-close-btn" id="chat-close">✕</button>
+  </div>
+  <div class="chat-messages" id="chat-messages"></div>
+  <div class="chat-quick-replies">
+    <button class="quick-reply">Best destinations 🌍</button>
+    <button class="quick-reply">Budget tips 💰</button>
+    <button class="quick-reply">Visa advice 📋</button>
+    <button class="quick-reply">Best seasons ☀️</button>
+  </div>
+  <div class="chat-input-row">
+    <input type="text" class="chat-input" id="chat-input" placeholder="Ask anything about travel…">
+    <button class="chat-send-btn" id="chat-send">→</button>
+  </div>
+</div>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
+<script src="/js/app.js"></script>
+<script>
+// Planner-specific helpers
+function changeTravelers(delta) {
+  const input = document.getElementById('travelers');
+  const val = Math.max(1, Math.min(20, parseInt(input.value || 1) + delta));
+  input.value = val;
+  if (typeof updateBudget === 'function') updateBudget();
+}
+
+function selectQuickDest(name, country) {
+  const input = document.getElementById('destination-name');
+  if (input) input.value = name;
+  if (typeof plannerData !== 'undefined') {
+    plannerData.destination_name = name;
+  }
+  document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
+  event.target.classList.add('active');
+}
+
+// Date change → show duration
+function setupDateListeners() {
+  ['travel-date', 'return-date'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.addEventListener('change', () => {
+      const d1 = document.getElementById('travel-date').value;
+      const d2 = document.getElementById('return-date').value;
+      const display = document.getElementById('duration-display');
+      const text = document.getElementById('duration-text');
+      if (d1 && d2) {
+        const nights = Math.round((new Date(d2) - new Date(d1)) / 86400000);
+        if (nights > 0) {
+          text.textContent = `${nights} night${nights > 1 ? 's' : ''} · ${new Date(d1).toLocaleDateString('en-GB',{day:'numeric',month:'short'})} → ${new Date(d2).toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'})}`;
+          display.style.display = 'block';
+        } else {
+          display.style.display = 'none';
+        }
+      }
+    });
+  });
+  // Set min date to today
+  const today = new Date().toISOString().split('T')[0];
+  const d1 = document.getElementById('travel-date');
+  const d2 = document.getElementById('return-date');
+  if (d1) d1.min = today;
+  if (d2) d2.min = today;
+}
+document.addEventListener('DOMContentLoaded', setupDateListeners);
+</script>
+</body>
+</html>

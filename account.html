@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Account — Wanderlust</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="account-page">
+
+<!-- ─── Navigation ─────────────────────────────────────── -->
+<nav class="nav scrolled" id="main-nav">
+  <div class="nav-inner">
+    <a href="/" class="nav-logo">
+      <div class="nav-logo-icon">🌍</div>
+      <span class="nav-logo-text">Wanderlust</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="/" class="nav-link">Home</a></li>
+      <li><a href="/#destinations" class="nav-link">Destinations</a></li>
+      <li><a href="/planner" class="nav-link">Planner</a></li>
+    </ul>
+    <div class="nav-actions" id="nav-auth">
+      <a href="/login" class="btn btn-outline-light btn-sm">Sign in</a>
+      <a href="/register" class="btn btn-primary btn-sm">Get started</a>
+    </div>
+    <button class="hamburger" id="hamburger" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<div class="nav-mobile-menu" id="nav-mobile-menu">
+  <a href="/" class="nav-link">Home</a>
+  <a href="/#destinations" class="nav-link">Destinations</a>
+  <a href="/planner" class="nav-link">Planner</a>
+</div>
+
+<!-- ─── Account Hero ───────────────────────────────────── -->
+<div class="account-hero">
+  <div class="account-user">
+    <div class="account-avatar">👤</div>
+    <div class="account-info">
+      <h1 id="account-name">Loading...</h1>
+      <p id="account-email">Loading...</p>
+    </div>
+  </div>
+</div>
+
+<!-- ─── Account Body ───────────────────────────────────── -->
+<div class="account-body">
+  <div class="account-tabs">
+    <button class="account-tab active" data-tab="plans">My Trip Plans</button>
+    <button class="account-tab" data-tab="booked">Booked Trips</button>
+  </div>
+
+  <div class="account-content">
+    <div class="account-section active" id="plans-section">
+      <h2>Your Trip Plans</h2>
+      <div id="plans-list" class="plans-grid">
+        <p>Loading your plans...</p>
+      </div>
+    </div>
+
+    <div class="account-section" id="booked-section">
+      <h2>Booked Trips</h2>
+      <div id="booked-list" class="plans-grid">
+        <p>No booked trips yet. Start planning!</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ─── Chatbot ────────────────────────────────────────── -->
+<div class="chat-fab" id="chat-fab">💬</div>
+<div class="chat-panel" id="chat-panel">
+  <div class="chat-header">
+    <h3>Travel Assistant</h3>
+    <button class="chat-close" id="chat-close">✕</button>
+  </div>
+  <div class="chat-messages" id="chat-messages"></div>
+  <div class="chat-input-area">
+    <div class="chat-quick-replies">
+      <button class="quick-reply">Best destinations 🌍</button>
+      <button class="quick-reply">Budget tips 💰</button>
+      <button class="quick-reply">Visa advice 📋</button>
+      <button class="quick-reply">Best seasons ☀️</button>
+    </div>
+    <div class="chat-input-row">
+      <input type="text" id="chat-input" placeholder="Ask me anything...">
+      <button id="chat-send">Send</button>
+    </div>
+  </div>
+</div>
+
+<script src="js/app.js"></script>
+</body>
+</html>
